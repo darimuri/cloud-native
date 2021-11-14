@@ -1,8 +1,8 @@
 
-- [Multi Clusters](#multi-clusters)
+- [Multi-Cluster](#multi-cluster)
   - [Simplifying multi-clusters in Kubernetes](#simplifying-multi-clusters-in-kubernetes)
     - [A partial Taxonomy](#a-partial-taxonomy)
-    - [Multi-cluster Control Plane](#multi-cluster-control-plane)
+    - [Multi-Cluster Control Plane](#multi-cluster-control-plane)
     - [Network Interconnection Tools](#network-interconnection-tools)
 - [Cloud Native Applications](#cloud-native-applications)
   - [Rancher: An Open Source Platform for Cloud Native Applications](#rancher-an-open-source-platform-for-cloud-native-applications)
@@ -17,7 +17,7 @@
   - [Practitioner’s guide: an introduction to Kubernetes multi-tenancy](#practitioners-guide-an-introduction-to-kubernetes-multi-tenancy)
 
 
-# Multi Clusters
+# Multi-Cluster
 
 ## [Simplifying multi-clusters in Kubernetes](https://www.cncf.io/blog/2021/04/12/simplifying-multi-clusters-in-kubernetes/)
 
@@ -25,14 +25,31 @@
 
 Multi-cluster topologies introduce primarily two classes of challenges:
 
-1. They require a form of synchronization between cluster control planes.
-2. They require a form of interconnection that makes services accessible in different clusters.
+1. They require a form of **synchronization between cluster control planes**.
+2. They require a form of **interconnection that makes services accessible in different clusters**.
 
-### Multi-cluster Control Plane
+### Multi-Cluster Control Plane
 
 1. Dedicated API Server
+    > The official Kubernetes Cluster Federation (a.k.a. KubeFed) [2] represents an example of this approach, which “allows you to coordinate the configuration of multiple Kubernetes clusters from a single set of APIs in a hosting cluster” [2]. To do so, KubeFed extends the traditional Kubernetes APIs with a new semantic for expressing which clusters should be selected for a specific deployment (through “Overrides” and “Cluster Selectors”).
+   * [KubeFed](https://github.com/kubernetes-sigs/kubefed)
 2. GitOps
+   > GitOps is a well-established framework to orchestrate CI/CD workflows. The basic idea is to use a git repository as a single source of truth for application deployment and update the cluster’s corresponding objects. Facing multi-cluster topologies, GitOps can represent an elementary multi-cluster control plane. We can mention GitOps tools such as FluxCD, Fleet, ArgoCD.
+
+    > In such a scenario, the applications are templated with the correct value for the suitable clusters and then deployed on target clusters. This approach, combined with proper network interconnection tools, allows you to obtain a multi-cluster orchestration without dealing with the complexity of extra APIs.
+
+    > However, **GitOps approaches lack dynamic pods placement across the multi-cluster topology**. They do not support any active disaster recovery strategy or cross-cluster bursting. In particular, there is no possibility to automatically migrate workloads across clusters to respond to unexpected failures or deal rapidly with unprevented load peaks.
+   * [FluxCD](https://fluxcd.io/docs/)
+   * [Fleet](https://rancher.com/docs/rancher/v2.6/en/deploy-across-clusters/fleet/)
+   * [ArgoCD](https://argo-cd.readthedocs.io/en/stable/)
+
 3. Virtual-kubelet-based approaches
+   > Virtual Kubelet (VK) is a “Kubernetes kubelet implementation that masquerades as a kubelet to connect Kubernetes to other APIs” [3]. Initial VK implementations model a remote service as a node of the cluster used as a placeholder to introduce serverless computing in Kubernetes clusters. Later, VK has gained popularity in the multi-cluster context: a VK provider can map a remote cluster to a local cluster node. Several projects, including Admiralty, Tensile-kube, and Liqo, adopt this approach. 
+
+    > This approach has several advantages compared to a dedicated API Server. First, it introduces multi-cluster without requiring extra APIs, and it is transparent w.r.t. applications. Second, it flexibly integrates resources of remote clusters in the scheduler’s availability: users can schedule pods in the remote cluster in the same way as they were local. Third, it enables decentralized governance. More precisely, the VK may not require privileged access on the remote cluster to schedule pods and other K8s objects supporting multiple ownerships.
+   * [Admiralty](https://admiralty.io/docs/)
+   * [Tensile-kube](https://github.com/virtual-kubelet/tensile-kube)
+   * [Liqo](https://doc.liqo.io/)
 
 |Criteria|Liqo|Admiralty|Tensile-Kube|Kubefed|ArgoCD|Fleet|FluxCD|
 | - | - | - | - | - | - | - | - |
@@ -68,6 +85,7 @@ Multi-cluster topologies introduce primarily two classes of challenges:
 # Cloud Native Applications
 
 ## [Rancher: An Open Source Platform for Cloud Native Applications](https://www.cloudops.com/blog/rancher-an-open-source-platform-for-cloud-native-applications/)
+**Pricing required**
 
 ## [End to end cloud native app builds and deployments with App Platform](https://www.cncf.io/blog/2021/04/07/end-to-end-cloud-native-app-builds-and-deployments-with-app-platform/)
 
