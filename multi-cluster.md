@@ -50,6 +50,8 @@ Multi-cluster topologies introduce primarily two classes of challenges:
    * [Admiralty](https://admiralty.io/docs/)
    * [Tensile-kube](https://github.com/virtual-kubelet/tensile-kube)
    * [Liqo](https://doc.liqo.io/)
+4. more
+   1. [karmada](https://github.com/karmada-io/karmada#karmada)
 
 |Criteria|Liqo|Admiralty|Tensile-Kube|Kubefed|ArgoCD|Fleet|FluxCD|
 | - | - | - | - | - | - | - | - |
@@ -70,7 +72,7 @@ Multi-cluster topologies introduce primarily two classes of challenges:
    * [ISTIO](https://istio.io/)
    * [Linkerd](https://linkerd.io/)
 4. [Focus: Liqo](https://doc.liqo.io/)
-
+   
 |Criteria|Liqo|Cilium ClusterMesh|Submariner|Skupper|IstioMulti-Cluster|Linkerd Multi-cluster|
 | - | - | - | - | - | - | - |
 |Architecture|Overlay Network and Gateway|Node to Node traffic|Overlay Network and Gateway|L7 Virtual Network|Gateway-based|Gateway-based|
