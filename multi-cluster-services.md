@@ -1,5 +1,5 @@
 - [Google Anthos](#google-anthos)
-- [1. Suse Rancher](#1-suse-rancher)
+- [Rancher](#rancher)
 
 [Google Anthos](https://cloud.google.com/anthos)
 ---
@@ -15,9 +15,10 @@
 
 [Azure Arc](https://docs.microsoft.com/ko-kr/azure/azure-arc/overview)
 
+
 [Rancher](https://rancher.com/docs/rancher/v2.6/en/overview/)
-1. [Suse Rancher](https://www.suse.com/products/suse-rancher/)
 ---
+1. [Suse Rancher](https://www.suse.com/products/suse-rancher/)
 Start at local dockerd
 ```
 $ sudo docker run --privileged -d --restart=unless-stopped -p 80:80 -p 443:443 rancher/rancher

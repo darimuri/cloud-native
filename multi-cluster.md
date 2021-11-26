@@ -1,3 +1,5 @@
+from https://oss.navercorp.com/naver-container-cluster/bd/issues/369#issuecomment-6904564
+
 
 - [Multi-Cluster](#multi-cluster)
   - [Simplifying multi-clusters in Kubernetes](#simplifying-multi-clusters-in-kubernetes)
@@ -32,7 +34,7 @@ Multi-cluster topologies introduce primarily two classes of challenges:
 
 1. Dedicated API Server
     > The official Kubernetes Cluster Federation (a.k.a. KubeFed) [2] represents an example of this approach, which “allows you to coordinate the configuration of multiple Kubernetes clusters from a single set of APIs in a hosting cluster” [2]. To do so, KubeFed extends the traditional Kubernetes APIs with a new semantic for expressing which clusters should be selected for a specific deployment (through “Overrides” and “Cluster Selectors”).
-   * [KubeFed](https://github.com/kubernetes-sigs/kubefed)
+   * [KubeFed](https://github.com/kubernetes-sigs/kubefed#kubernetes-cluster-federation) [1.9k stars](https://github.com/kubernetes-sigs/kubefed)
 2. GitOps
    > GitOps is a well-established framework to orchestrate CI/CD workflows. The basic idea is to use a git repository as a single source of truth for application deployment and update the cluster’s corresponding objects. Facing multi-cluster topologies, GitOps can represent an elementary multi-cluster control plane. We can mention GitOps tools such as FluxCD, Fleet, ArgoCD.
 
@@ -44,14 +46,17 @@ Multi-cluster topologies introduce primarily two classes of challenges:
    * [ArgoCD](https://argo-cd.readthedocs.io/en/stable/)
 
 3. Virtual-kubelet-based approaches
-   > Virtual Kubelet (VK) is a “Kubernetes kubelet implementation that masquerades as a kubelet to connect Kubernetes to other APIs” [3]. Initial VK implementations model a remote service as a node of the cluster used as a placeholder to introduce serverless computing in Kubernetes clusters. Later, VK has gained popularity in the multi-cluster context: a VK provider can map a remote cluster to a local cluster node. Several projects, including Admiralty, Tensile-kube, and Liqo, adopt this approach. 
+   > [Virtual Kubelet](https://github.com/virtual-kubelet/virtual-kubelet#virtual-kubelet) [3.3k stars](https://github.com/virtual-kubelet/virtual-kubelet) (VK) is a “Kubernetes kubelet implementation that masquerades as a kubelet to connect Kubernetes to other APIs” [3]. Initial VK implementations model a remote service as a node of the cluster used as a placeholder to introduce serverless computing in Kubernetes clusters. Later, VK has gained popularity in the multi-cluster context: a VK provider can map a remote cluster to a local cluster node. Several projects, including Admiralty, Tensile-kube, and Liqo, adopt this approach. 
 
     > This approach has several advantages compared to a dedicated API Server. First, it introduces multi-cluster without requiring extra APIs, and it is transparent w.r.t. applications. Second, it flexibly integrates resources of remote clusters in the scheduler’s availability: users can schedule pods in the remote cluster in the same way as they were local. Third, it enables decentralized governance. More precisely, the VK may not require privileged access on the remote cluster to schedule pods and other K8s objects supporting multiple ownerships.
-   * [Admiralty](https://admiralty.io/docs/)
-   * [Tensile-kube](https://github.com/virtual-kubelet/tensile-kube)
-   * [Liqo](https://doc.liqo.io/)
+   * [Admiralty](https://admiralty.io/docs/concepts/topologies) [391 stars](https://github.com/admiraltyio/admiralty)
+   * [Tensile-kube](https://github.com/virtual-kubelet/tensile-kube#overview) [185 stars](https://github.com/virtual-kubelet/tensile-kube)
+   * [Liqo](https://doc.liqo.io/) [464 stars](https://github.com/liqotech/liqo)
+   * [More Virtual Kubelet Providers](https://github.com/virtual-kubelet/virtual-kubelet#table-of-contents)
 4. more
-   1. [karmada](https://github.com/karmada-io/karmada#karmada)
+   1. [Fleet](https://fleet.rancher.io/) from Rancher
+      > Fleet can manage deployments from git of raw Kubernetes YAML, Helm charts, or Kustomize or any combination of the three. Regardless of the source, all resources are dynamically turned into Helm charts, and Helm is used as the engine to deploy everything in the cluster. This gives you a high degree of control, consistency, and auditability. Fleet focuses not only on the ability to scale, but to give one a high degree of control and visibility to exactly what is installed on the cluster.
+   2. [karmada](https://github.com/karmada-io/karmada#karmada) [1.7k stars](https://github.com/karmada-io/karmada)
 
 |Criteria|Liqo|Admiralty|Tensile-Kube|Kubefed|ArgoCD|Fleet|FluxCD|
 | - | - | - | - | - | - | - | - |
